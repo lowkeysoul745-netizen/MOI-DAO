@@ -1,0 +1,111 @@
+{
+  "network": {
+    "name": "MOI Demo Network",
+    "mode": "local-demo"
+  },
+  "profile": {
+    "address": "moi:demo:0x91c2b4f8d7a6",
+    "displayName": "Demo Delegate",
+    "interactions": 9,
+    "votesCast": 6,
+    "proposalsCreated": 2
+  },
+  "proposals": [
+    {
+      "id": 4,
+      "title": "Is the idea of Hackathos is good?",
+      "yes": 5,
+      "no": 0,
+      "createdBy": "Demo Delegate",
+      "createdAt": "2026-04-03T10:12:55.072Z",
+      "voters": {
+        "moi:demo:0x91c2b4f8d7a6": "yes"
+      }
+    },
+    {
+      "id": 1,
+      "title": "Launch a community grant pilot",
+      "yes": 18,
+      "no": 3,
+      "createdBy": "Treasury Council",
+      "createdAt": "2026-03-29T09:15:00.000Z",
+      "voters": {
+        "moi:demo:0x91c2b4f8d7a6": "yes"
+      }
+    },
+    {
+      "id": 2,
+      "title": "Open weekly contributor office hours",
+      "yes": 11,
+      "no": 4,
+      "createdBy": "Operations Guild",
+      "createdAt": "2026-03-30T14:30:00.000Z",
+      "voters": {
+        "moi:demo:0x91c2b4f8d7a6": "no"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Allocate budget for a public dashboard",
+      "yes": 11,
+      "no": 5,
+      "createdBy": "Analytics Circle",
+      "createdAt": "2026-04-01T11:45:00.000Z",
+      "voters": {
+        "moi:demo:0x91c2b4f8d7a6": "yes"
+      }
+    }
+  ],
+  "activity": [
+    {
+      "id": 8,
+      "type": "vote",
+      "message": "Demo Delegate voted Yes on #4 with weight 5",
+      "createdAt": "2026-04-03T10:12:59.037Z"
+    },
+    {
+      "id": 7,
+      "type": "proposal",
+      "message": "Proposal #4 created: Is the idea of Hackathos is good?",
+      "createdAt": "2026-04-03T10:12:55.072Z"
+    },
+    {
+      "id": 6,
+      "type": "vote",
+      "message": "Demo Delegate voted Yes on #1 with weight 4",
+      "createdAt": "2026-04-03T10:12:27.243Z"
+    },
+    {
+      "id": 5,
+      "type": "vote",
+      "message": "Demo Delegate voted No on #2 with weight 3",
+      "createdAt": "2026-04-03T10:12:23.381Z"
+    },
+    {
+      "id": 4,
+      "type": "vote",
+      "message": "Demo Delegate voted Yes on #3 with weight 3",
+      "createdAt": "2026-04-03T10:12:17.805Z"
+    },
+    {
+      "id": 1,
+      "type": "vote",
+      "message": "Demo Delegate voted Yes on \"Open weekly contributor office hours\"",
+      "createdAt": "2026-04-02T15:20:00.000Z"
+    },
+    {
+      "id": 2,
+      "type": "proposal",
+      "message": "A new proposal was created for the public dashboard budget",
+      "createdAt": "2026-04-02T10:05:00.000Z"
+    },
+    {
+      "id": 3,
+      "type": "profile",
+      "message": "Participant profile synced and vote weight recalculated",
+      "createdAt": "2026-04-02T09:10:00.000Z"
+    }
+  ],
+  "nextProposalId": 5,
+  "nextActivityId": 9
+}

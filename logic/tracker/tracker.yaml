@@ -1,0 +1,69 @@
+syntax: 1
+engine:
+  kind: PISA
+  flags: []
+  version: 0.7.0
+kind: logic
+elements:
+- ptr: 0
+  kind: state
+  data:
+    mode: logic
+    fields:
+    - slot: 0
+      label: interaction_count
+      type: u64
+- ptr: 1
+  deps:
+  - 0
+  kind: callable
+  data:
+    name: Init
+    mode: dynamic
+    kind: deploy
+    accepts: []
+    returns: []
+    executes:
+      asm:
+      - LLOAD $0 &0
+      - PMAKE $1 &5
+      - DISPER $0 $1
+      - STORE $0
+    catches: []
+- ptr: 2
+  deps:
+  - 0
+  kind: callable
+  data:
+    name: Increment
+    mode: dynamic
+    kind: invoke
+    accepts: []
+    returns: []
+    executes:
+      asm:
+      - LLOAD $0 &0
+      - GATHER $1 $0
+      - INCR $1
+      - DISPER $0 $1
+      - STORE $0
+    catches: []
+- ptr: 3
+  deps:
+  - 0
+  kind: callable
+  data:
+    name: GetCount
+    mode: pure
+    kind: invoke
+    accepts: []
+    returns:
+    - slot: 0
+      label: count
+      type: u64
+    executes:
+      asm:
+      - LLOAD $0 &0
+      - YIELD $0 &0
+      - DUMP $0
+    catches: []

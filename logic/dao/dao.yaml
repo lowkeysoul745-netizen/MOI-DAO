@@ -1,0 +1,234 @@
+syntax: 1
+engine:
+  kind: PISA
+  flags: []
+  version: 0.7.0
+kind: logic
+elements:
+- ptr: 0
+  kind: literal
+  data:
+    type: string
+    value: '0x062d'
+- ptr: 1
+  kind: literal
+  data:
+    type: string
+    value: '0x06'
+- ptr: 2
+  kind: literal
+  data:
+    type: string
+    value: 0x06496e76616c69642070726f706f73616c
+- ptr: 3
+  kind: literal
+  data:
+    type: string
+    value: '0x06416c726561647920766f746564'
+- ptr: 4
+  kind: typedef
+  data: map[u64]string
+- ptr: 5
+  kind: typedef
+  data: map[u64]u64
+- ptr: 6
+  kind: typedef
+  data: map[string]bool
+- ptr: 7
+  kind: state
+  data:
+    mode: logic
+    fields:
+    - slot: 0
+      label: proposal_count
+      type: u64
+    - slot: 1
+      label: proposals
+      type: map[u64]string
+    - slot: 2
+      label: yes_weight
+      type: map[u64]u64
+    - slot: 3
+      label: no_weight
+      type: map[u64]u64
+    - slot: 4
+      label: voted
+      type: map[string]bool
+- ptr: 8
+  deps:
+  - 7
+  kind: callable
+  data:
+    name: Init
+    mode: dynamic
+    kind: deploy
+    accepts: []
+    returns: []
+    executes:
+      asm:
+      - LLOAD $0 &0
+      - PMAKE $1 &5
+      - DISPER $0 $1
+      - STORE $0
+    catches: []
+- ptr: 9
+  deps:
+  - 7
+  kind: callable
+  data:
+    name: CreateProposal
+    mode: dynamic
+    kind: invoke
+    accepts:
+    - slot: 0
+      label: title
+      type: string
+    returns: []
+    executes:
+      asm:
+      - LLOAD $1 &0
+      - GATHER $2 $1
+      - INCR $2
+      - COPY $0 $2
+      - DISPER $1 $2
+      - STORE $1
+      - LLOAD $1 &1
+      - OBTAIN $2 &0
+      - SETKEY $1 $0 $2
+      - STORE $1
+      - LLOAD $1 &2
+      - PMAKE $2 &5
+      - SETKEY $1 $0 $2
+      - STORE $1
+      - LLOAD $1 &3
+      - PMAKE $2 &5
+      - SETKEY $1 $0 $2
+      - STORE $1
+    catches: []
+- ptr: 10
+  deps:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 7
+  kind: callable
+  data:
+    name: Vote
+    mode: dynamic
+    kind: invoke
+    accepts:
+    - slot: 0
+      label: proposal_id
+      type: u64
+    - slot: 1
+      label: vote_yes
+      type: bool
+    - slot: 2
+      label: weight
+      type: u64
+    returns: []
+    executes:
+      asm:
+      - PMAKE $0 &3
+      - ORIGIN $1
+      - STR $1 $1
+      - LDPTR1 $2 0x0
+      - LMAKE $2 $2
+      - JOIN $1 $1 $2
+      - OBTAIN $2 &0
+      - STR $3 $2
+      - JOIN $1 $1 $3
+      - COPY $0 $1
+      - LLOAD $1 &1
+      - GETKEY $3 $1 $2
+      - LDPTR1 $4 0x1
+      - LMAKE $4 $4
+      - EQ $3 $3 $4
+      - NOT $3 $3
+      - LDPTR1 $4 0x15
+      - JUMPI $4 $3
+      - LDPTR1 $3 0x2
+      - LMAKE $3 $3
+      - THROW $3
+      - DEST
+      - DUMP $1
+      - LLOAD $1 &4
+      - GETKEY $3 $1 $0
+      - NOT $3 $3
+      - LDPTR1 $4 0x1f
+      - JUMPI $4 $3
+      - LDPTR1 $3 0x3
+      - LMAKE $3 $3
+      - THROW $3
+      - DEST
+      - DUMP $1
+      - LLOAD $1 &4
+      - PMAKE $3 &1
+      - NOT $3 $3
+      - GENKEY $4 $1 $0
+      - SETKEY $1 $0 $3
+      - STORE $1
+      - OBTAIN $0 &1
+      - NOT $0 $0
+      - LDPTR1 $1 0x34
+      - JUMPI $1 $0
+      - LLOAD $0 &2
+      - GETKEY $3 $0 $2
+      - OBTAIN $4 &2
+      - ADD $3 $3 $4
+      - GENKEY $4 $0 $2
+      - SETKEY $0 $2 $3
+      - STORE $0
+      - LDPTR1 $1 0x3c
+      - JUMP $1
+      - DEST
+      - LLOAD $0 &3
+      - GETKEY $1 $0 $2
+      - OBTAIN $3 &2
+      - ADD $1 $1 $3
+      - GENKEY $3 $0 $2
+      - SETKEY $0 $2 $1
+      - STORE $0
+      - DEST
+    catches: []
+- ptr: 11
+  deps:
+  - 7
+  kind: callable
+  data:
+    name: GetProposal
+    mode: pure
+    kind: invoke
+    accepts:
+    - slot: 0
+      label: proposal_id
+      type: u64
+    returns:
+    - slot: 0
+      label: title
+      type: string
+    - slot: 1
+      label: yes
+      type: u64
+    - slot: 2
+      label: no
+      type: u64
+    executes:
+      asm:
+      - LLOAD $0 &1
+      - OBTAIN $1 &0
+      - GETKEY $1 $0 $1
+      - YIELD $1 &0
+      - DUMP $0
+      - LLOAD $0 &2
+      - OBTAIN $1 &0
+      - GETKEY $1 $0 $1
+      - YIELD $1 &1
+      - DUMP $0
+      - LLOAD $0 &3
+      - OBTAIN $1 &0
+      - GETKEY $1 $0 $1
+      - YIELD $1 &2
+      - DUMP $0
+    catches: []

@@ -1,0 +1,50 @@
+coco dao
+
+state logic:
+    proposal_count U64
+    proposals Map[U64]String
+    yes_weight Map[U64]U64
+    no_weight Map[U64]U64
+    voted Map[String]Bool
+
+endpoint deploy Init():
+    mutate proposal_count <- dao.Logic.proposal_count:
+        proposal_count = 0
+
+endpoint dynamic CreateProposal(title String):
+    memory new_proposal_id U64
+    mutate proposal_count <- dao.Logic.proposal_count:
+        proposal_count = proposal_count + 1
+        new_proposal_id = proposal_count
+    mutate proposals <- dao.Logic.proposals:
+        proposals[new_proposal_id] = title
+    mutate yes_weight <- dao.Logic.yes_weight:
+        yes_weight[new_proposal_id] = 0
+    mutate no_weight <- dao.Logic.no_weight:
+        no_weight[new_proposal_id] = 0
+
+endpoint dynamic Vote(proposal_id U64, vote_yes Bool, weight U64):
+    memory vote_key String
+    vote_key = f"{Sender}-{proposal_id}"
+    observe proposals <- dao.Logic.proposals:
+        if proposals[proposal_id] == "":
+            throw "Invalid proposal"
+    observe voted <- dao.Logic.voted:
+        if voted[vote_key]:
+            throw "Already voted"
+    mutate voted <- dao.Logic.voted:
+        voted[vote_key] = true
+    if vote_yes:
+        mutate yes_weight <- dao.Logic.yes_weight:
+            yes_weight[proposal_id] = yes_weight[proposal_id] + weight
+    else:
+        mutate no_weight <- dao.Logic.no_weight:
+            no_weight[proposal_id] = no_weight[proposal_id] + weight
+
+endpoint GetProposal(proposal_id U64) -> (title String, yes U64, no U64):
+    observe proposals <- dao.Logic.proposals:
+        title = proposals[proposal_id]
+    observe yes_weight <- dao.Logic.yes_weight:
+        yes = yes_weight[proposal_id]
+    observe no_weight <- dao.Logic.no_weight:
+        no = no_weight[proposal_id]

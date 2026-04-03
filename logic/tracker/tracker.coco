@@ -1,0 +1,15 @@
+coco tracker
+
+state logic:
+    interaction_count U64
+
+endpoint deploy Init():
+    mutate interaction_count <- tracker.Logic.interaction_count:
+        interaction_count = 0
+
+endpoint dynamic Increment():
+    mutate interaction_count <- tracker.Logic.interaction_count:
+        interaction_count = interaction_count + 1
+
+endpoint GetCount() -> (count U64):
+    observe count <- tracker.Logic.interaction_count
