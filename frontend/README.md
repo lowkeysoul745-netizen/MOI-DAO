@@ -1,31 +1,69 @@
 # MOI DAO Demo
 
-This frontend is wired to a local demo backend so you can record a working prototype without deploying MOI contracts.
+A local, self-contained DAO prototype for recording a working demo without deploying to MOI.
 
-## Run locally
+## What This Includes
 
-1. Start the backend from the repository root:
+- A Node backend that serves proposal, voting, profile, and activity data.
+- A React + Vite frontend for creating proposals and casting votes.
+- Persistent demo state stored in `backend/state.json`.
+
+## Requirements
+
+- Node.js installed on your machine.
+- PowerShell or another terminal.
+
+## Run The Demo
+
+Open two terminals.
+
+Terminal 1, from the repository root:
 
 ```powershell
+cd C:\Users\hp\OneDrive\Desktop\Projects\moi-dao
 node .\backend\server.js
 ```
 
-2. Start the frontend:
+Terminal 2, from the frontend folder:
 
 ```powershell
-cd .\frontend
+cd C:\Users\hp\OneDrive\Desktop\Projects\moi-dao\frontend
 npm run dev
 ```
 
-3. Open the Vite URL shown in the terminal.
+Open the Vite URL printed in Terminal 2, usually:
 
-## Demo flow
+```text
+http://localhost:5173
+```
 
-- Create a proposal from the form on the left.
-- Select a proposal and cast a weighted yes/no vote.
-- Use Reset demo state if you want to return to the seeded scenario before recording.
+## Host On GitHub Pages
 
-## Notes
+This repo can be hosted on GitHub Pages because the frontend now falls back to a browser-local demo state when the API is unavailable.
 
-- Proposal, vote, profile, and activity data are persisted in `backend/state.json`.
-- The deployment scripts remain in the repository, but the demo no longer depends on them.
+1. Push your changes to the `main` branch.
+2. In the GitHub repository, open `Settings` -> `Pages`.
+3. Set `Build and deployment` to `GitHub Actions`.
+4. Make sure the workflow in [.github/workflows/github-pages.yml](../.github/workflows/github-pages.yml) exists on `main`.
+5. Push again or manually run the workflow from the `Actions` tab.
+
+After the workflow succeeds, GitHub will show the published Pages URL in the workflow run and in `Settings` -> `Pages`.
+
+## Demo Flow
+
+1. Create a proposal.
+2. Open the proposal card.
+3. Vote Yes or No.
+4. Use Reset demo state to return to the seeded example.
+
+## Troubleshooting
+
+- If the backend fails with `EADDRINUSE`, port `8787` is already in use. Stop the existing backend process and run it again.
+- If the frontend cannot load data, confirm the backend is running before starting Vite.
+- On GitHub Pages, the app uses the browser-local demo state automatically if the backend is not reachable.
+
+## Project Notes
+
+- `backend/server.js` contains the local API.
+- `frontend/src/moi.js` is the client API layer.
+- Deployment scripts are kept in the repository, but the demo does not depend on them.
